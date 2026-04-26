@@ -2,7 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="parada_red">#FF3B3F</color>
+    <color name="parada_red">#E91E63</color>
+    <color name="parada_red_dark">#C2185B</color>
     <color name="selected_grey">#757575</color>
     <color name="unselected_grey">#BDBDBD</color>
+    
+    <color name="card_red_side">#FF5252</color>
+    <color name="card_purple_side">#7C4DFF</color>
+    <color name="card_green_side">#69F0AE</color>
+    <color name="card_orange_side">#FFAB40</color>
+    
+    <color name="bg_light_red">#FFF0F3</color>
+    <color name="bg_light_purple">#F3E5F5</color>
+    <color name="bg_light_green">#E8F5E9</color>
+    <color name="bg_light_orange">#FFF3E0</color>
 </resources>

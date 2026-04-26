@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_how_to"
-        android:icon="@drawable/img"
-        android:title="How to Use" />
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Home" />
     <item
         android:id="@+id/nav_map"
-        android:icon="@drawable/img_1"
+        android:icon="@android:drawable/ic_menu_mapmode"
         android:title="Map" />
     <item
         android:id="@+id/nav_routes"
-        android:icon="@drawable/img_2"
+        android:icon="@android:drawable/ic_menu_directions"
         android:title="Routes" />
     <item
         android:id="@+id/nav_settings"
-        android:icon="@drawable/img_3"
+        android:icon="@android:drawable/ic_menu_manage"
         android:title="Settings" />
 </menu>

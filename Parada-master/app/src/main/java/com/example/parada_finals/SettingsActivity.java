@@ -3,10 +3,12 @@ package com.example.parada_finals;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,27 +21,55 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        String username = getIntent().getStringExtra("USERNAME");
+
+        // Header Username with Dropdown
+        TextView tvUsernameHeader = findViewById(R.id.tvUsernameHeader);
+        if (tvUsernameHeader != null) {
+            if (username != null && !username.isEmpty()) {
+                tvUsernameHeader.setText(username);
+            }
+
+            tvUsernameHeader.setOnClickListener(v -> {
+                PopupMenu popup = new PopupMenu(SettingsActivity.this, v);
+                popup.getMenuInflater().inflate(R.menu.user_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(item -> {
+                    if (item.getItemId() == R.id.menu_logout) {
+                        logout();
+                        return true;
+                    }
+                    return false;
+                });
+                popup.show();
+            });
+        }
+
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setSelectedItemId(R.id.nav_settings);
 
         bottomNavigation.setOnItemSelectedListener(item -> {
-
             int id = item.getItemId();
 
             if (id == R.id.nav_how_to) {
-                startActivity(new Intent(this, LandingActivity.class));
+                Intent intent = new Intent(this, LandingActivity.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
                 finish();
                 return true;
             }
 
             if (id == R.id.nav_routes) {
-                startActivity(new Intent(this, RoutesActivity.class));
+                Intent intent = new Intent(this, RoutesActivity.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
                 finish();
                 return true;
             }
 
             if (id == R.id.nav_map) {
-                startActivity(new Intent(this, MapActivity.class));
+                Intent intent = new Intent(this, MapActivity.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
                 finish();
                 return true;
             }
@@ -47,44 +77,28 @@ public class SettingsActivity extends AppCompatActivity {
             return id == R.id.nav_settings;
         });
 
-        Switch notifSwitch = findViewById(R.id.switchNotifications);
-
-        notifSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                // Notifications ON
-            } else {
-                // Notifications OFF
-            }
-        });
-
-        LinearLayout account = findViewById(R.id.account);
-
-        account.setOnClickListener(v -> {
-            startActivity(new Intent(this, AccountActivity.class));
-        });
-
+        // Updated click listeners to use CardView IDs from the new layout
+        setupClick(R.id.account, AccountActivity.class);
         setupClick(R.id.location, LocationActivity.class);
         setupClick(R.id.privacy, PrivacyActivity.class);
         setupClick(R.id.about, AboutActivity.class);
-
-        // ✅ LOGOUT FUNCTION
-        findViewById(R.id.logout).setOnClickListener(v -> {
-            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-
-            // clears all previous activities (prevents back button return)
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-            startActivity(intent);
-            finish();
-        });
     }
 
     private void setupClick(int viewId, Class<?> activityClass) {
         View v = findViewById(viewId);
         if (v != null) {
-            v.setOnClickListener(view ->
-                    startActivity(new Intent(this, activityClass))
-            );
+            v.setOnClickListener(view -> {
+                Intent intent = new Intent(this, activityClass);
+                intent.putExtra("USERNAME", getIntent().getStringExtra("USERNAME"));
+                startActivity(intent);
+            });
         }
+    }
+
+    private void logout() {
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
