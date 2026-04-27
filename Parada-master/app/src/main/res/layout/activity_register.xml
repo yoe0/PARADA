@@ -9,29 +9,17 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="180dp"
         android:background="@drawable/header_bg_wave"
         android:padding="24dp">
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/img_5"
+            android:layout_width="600dp"
+            android:layout_height="200dp"
+            android:src="@drawable/logo5"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ivLogo"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
-            android:text="PARADA"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-black" />
+            android:layout_marginBottom="10dp" />
     </RelativeLayout>
 
     <ScrollView

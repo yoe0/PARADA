@@ -25,7 +25,7 @@ public class LandingActivity extends AppCompatActivity {
             tvWelcomeUser.setText("Buenas Dias, " + username + "! 👋");
         }
 
-        // Header Username with Dropdown
+        // Header Username
         TextView tvUsernameHeader = findViewById(R.id.tvUsernameHeader);
         if (username != null && !username.isEmpty()) {
             tvUsernameHeader.setText(username);
@@ -96,21 +96,14 @@ public class LandingActivity extends AppCompatActivity {
             R.color.card_purple_side);
         cardRoutes.setOnClickListener(v -> navigateTo(RoutesActivity.class));
 
-        // Tickets Card
-        View cardTickets = findViewById(R.id.cardTickets);
-        updateCard(cardTickets, 
-            "Purchase Tickets/Notifications", 
-            "Check fare prices and explore flexible payment options, including single rides, day passes, and monthly passes. You can also enable notifications to receive service alerts, delays, and updates about your favorite routes.",
-            android.R.drawable.ic_menu_agenda,
+        // Settings Card
+        View cardSettings = findViewById(R.id.cardSettings);
+        updateCard(cardSettings, 
+            "Settings", 
+            "Manage your account, location, and privacy preferences.",
+            android.R.drawable.ic_menu_manage,
             R.color.card_green_side);
-
-        // Service Alerts Card
-        View cardAlerts = findViewById(R.id.cardAlerts);
-        updateCard(cardAlerts, 
-            "Service Alerts", 
-            "Stay informed about disruptions, maintenance, and other important service updates.",
-            android.R.drawable.ic_popup_reminder,
-            R.color.card_orange_side);
+        cardSettings.setOnClickListener(v -> navigateTo(SettingsActivity.class));
     }
 
     private void updateCard(View card, String title, String desc, int iconRes, int colorRes) {

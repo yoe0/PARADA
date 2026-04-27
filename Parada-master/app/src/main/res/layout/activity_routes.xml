@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="140dp"
         android:background="@drawable/header_bg_wave"
         android:padding="24dp">
 
@@ -37,7 +37,6 @@
                 android:text="hans"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
-                android:drawableEnd="@android:drawable/arrow_down_float"
                 android:drawablePadding="4dp"
                 app:tint="#FFFFFF"
                 android:clickable="true"

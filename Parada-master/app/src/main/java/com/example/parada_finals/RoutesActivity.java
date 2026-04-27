@@ -55,6 +55,7 @@ public class RoutesActivity extends AppCompatActivity {
 
         initializeCoordinates();
         String username = getIntent().getStringExtra("USERNAME");
+        String destinationFromMap = getIntent().getStringExtra("DESTINATION");
 
         // Header
         TextView tvUsernameHeader = findViewById(R.id.tvUsernameHeader);
@@ -95,6 +96,17 @@ public class RoutesActivity extends AppCompatActivity {
         spinnerFrom.setAdapter(locAdapter);
         spinnerTo.setAdapter(locAdapter);
 
+        // Set destination if passed from Map
+        if (destinationFromMap != null) {
+            for (int i = 0; i < barangayList.length; i++) {
+                if (barangayList[i].equalsIgnoreCase(destinationFromMap) || 
+                    destinationFromMap.contains(barangayList[i])) {
+                    spinnerTo.setSelection(i);
+                    break;
+                }
+            }
+        }
+
         btnCalculate.setOnClickListener(v -> calculateFare());
 
         // Navigation
@@ -126,7 +138,7 @@ public class RoutesActivity extends AppCompatActivity {
     }
 
     private void initializeCoordinates() {
-        // Sample coordinates for key Zamboanga locations
+        // Real Coordinates
         coordinatesMap.put("Town", new LatLng(6.905, 122.075));
         coordinatesMap.put("KCC Mall", new LatLng(6.9174, 122.0754));
         coordinatesMap.put("SM Mindpro", new LatLng(6.9067, 122.0772));
@@ -141,6 +153,42 @@ public class RoutesActivity extends AppCompatActivity {
         coordinatesMap.put("San Roque", new LatLng(6.9101, 122.0555));
         coordinatesMap.put("Talon-Talon", new LatLng(6.9083, 122.1000));
         coordinatesMap.put("Tumaga", new LatLng(6.9333, 122.0667));
+        coordinatesMap.put("Arena Blanco", new LatLng(6.8920, 122.1080));
+        coordinatesMap.put("Baliwasan", new LatLng(6.9130, 122.0620));
+        coordinatesMap.put("Boalan", new LatLng(6.9530, 122.1330));
+        coordinatesMap.put("Bolong", new LatLng(7.0850, 122.2220));
+        coordinatesMap.put("Bunguiao", new LatLng(7.1550, 122.1850));
+        coordinatesMap.put("Cabaluay", new LatLng(7.0140, 122.1580));
+        coordinatesMap.put("Cabatangan", new LatLng(6.9360, 122.0640));
+        coordinatesMap.put("Calarian", new LatLng(6.9320, 122.0400));
+        coordinatesMap.put("Camino Nuevo", new LatLng(6.9140, 122.0720));
+        coordinatesMap.put("Campo Islam", new LatLng(6.9060, 122.0600));
+        coordinatesMap.put("Canelar", new LatLng(6.9150, 122.0680));
+        coordinatesMap.put("Capisan", new LatLng(6.9650, 122.0420));
+        coordinatesMap.put("Culianan", new LatLng(6.9680, 122.1450));
+        coordinatesMap.put("Curuan", new LatLng(7.2810, 122.2030));
+        coordinatesMap.put("La Paz", new LatLng(7.0370, 122.0120));
+        coordinatesMap.put("Labuan", new LatLng(7.0979, 121.9029));
+        coordinatesMap.put("Limpapa", new LatLng(7.1430, 121.9028));
+        coordinatesMap.put("Lumbangan", new LatLng(6.9640, 122.1070));
+        coordinatesMap.put("Lunzuran", new LatLng(6.9580, 122.0830));
+        coordinatesMap.put("Maasin", new LatLng(6.9580, 121.9960));
+        coordinatesMap.put("Mampang", new LatLng(6.9200, 122.1150));
+        coordinatesMap.put("Mercedes", new LatLng(6.9825, 122.1353));
+        coordinatesMap.put("Pasobolong", new LatLng(6.9940, 122.1510));
+        coordinatesMap.put("Patalon", new LatLng(7.0528, 121.9096));
+        coordinatesMap.put("San Jose Cawa-Cawa", new LatLng(6.9090, 122.0630));
+        coordinatesMap.put("San Jose Gusu", new LatLng(6.9284, 122.0467));
+        coordinatesMap.put("San Ramon", new LatLng(7.0000, 121.9210));
+        coordinatesMap.put("Santa Barbara", new LatLng(6.9080, 122.0790));
+        coordinatesMap.put("Santa Catalina", new LatLng(6.9050, 122.0860));
+        coordinatesMap.put("Santo Niño", new LatLng(6.9140, 122.0580));
+        coordinatesMap.put("Sinunoc", new LatLng(6.9402, 122.0104));
+        coordinatesMap.put("Sinubung", new LatLng(7.0228, 121.9192));
+        coordinatesMap.put("Talisayan", new LatLng(6.9876, 121.9296));
+        coordinatesMap.put("Tugbungan", new LatLng(6.9160, 122.0960));
+        coordinatesMap.put("Vitali", new LatLng(7.3780, 122.2850));
+        coordinatesMap.put("Zambowood", new LatLng(6.9550, 122.1240));
     }
 
     private LatLng getLatLng(String name) {

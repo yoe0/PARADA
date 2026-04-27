@@ -9,9 +9,11 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="220dp"
         android:background="@drawable/header_bg_wave"
-        android:padding="24dp">
+        android:padding="20dp">
+
+
 
         <TextView
             android:id="@+id/tvHeaderTitle"
@@ -19,54 +21,64 @@
             android:layout_height="wrap_content"
             android:text="PARADA MAP"
             android:textColor="#FFFFFF"
-            android:textSize="26sp"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-black" />
+            android:fontFamily="sans-serif-black"
+            android:layout_marginStart="12dp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvUsernameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:text="hans"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvUsernameHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="hans"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:drawableEnd="@android:drawable/arrow_down_float"
-                android:drawablePadding="4dp"
-                app:tint="#FFFFFF"
-                android:clickable="true"
-                android:focusable="true"/>
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/etSearchMap"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_below="@id/tvHeaderTitle"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/spinner_bg"
-            android:hint="Search location..."
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:drawableStart="@android:drawable/ic_menu_search"
-            android:drawablePadding="8dp"
-            android:inputType="text"
-            android:maxLines="1" />
+            android:layout_marginTop="12dp">
+
+            <EditText
+                android:id="@+id/etOriginMap"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_bg"
+                android:hint="From: Current Location (Town)"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:drawableStart="@android:drawable/ic_menu_myplaces"
+                android:drawablePadding="8dp"
+                android:textSize="13sp"
+                android:maxLines="1"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etDestMap"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_bg"
+                android:hint="To: Destination"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:drawablePadding="8dp"
+                android:textSize="13sp"
+                android:maxLines="1" />
+        </LinearLayout>
 
     </RelativeLayout>
 
-    <!-- MAP CONTAINER WITH ROUNDED CORNERS EFFECT -->
+    <!-- MAP CONTAINER -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-30dp"
         android:layout_above="@id/bottom_navigation"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -78,6 +90,38 @@
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+            
+        <!-- Distance Display Overlay -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardDistanceOverlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:background="#FFFFFF">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/ic_menu_directions"
+                    app:tint="@color/parada_red" />
+                <TextView
+                    android:id="@+id/tvOverlayDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Distance: 0.0 km"
+                    android:textColor="#333333"
+                    android:textStyle="bold"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
             
     </androidx.cardview.widget.CardView>
 

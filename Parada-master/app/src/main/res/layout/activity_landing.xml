@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvAppName"
-            android:text="Your route, now together."
+            android:text="“Two paths, one journey your route, now together.”"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
 
@@ -46,8 +46,6 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:drawableEnd="@android:drawable/arrow_down_float"
-                android:drawablePadding="4dp"
                 android:clickable="true"
                 android:focusable="true"/>
         </LinearLayout>
@@ -118,6 +116,10 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
             <!-- SEARCH DESTINATION -->
             <include layout="@layout/item_menu_card"
                 android:id="@+id/cardSearch" />
@@ -126,13 +128,9 @@
             <include layout="@layout/item_menu_card"
                 android:id="@+id/cardRoutes" />
 
-            <!-- TICKETS -->
+            <!-- SETTINGS -->
             <include layout="@layout/item_menu_card"
-                android:id="@+id/cardTickets" />
-
-            <!-- SERVICE ALERTS -->
-            <include layout="@layout/item_menu_card"
-                android:id="@+id/cardAlerts" />
+                android:id="@+id/cardSettings" />
 
         </LinearLayout>
     </ScrollView>
