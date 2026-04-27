@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,8 +50,11 @@ public class MapActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
     private String username;
     private EditText etOriginMap, etDestMap;
-    private List<Marker> allMarkers = new ArrayList<>();
-    private Map<String, GeoPoint> locationPoints = new HashMap<>();
+    private MaterialCardView cardSearchBar, cardRouteSelection;
+    private TextView tvSearchPlaceholder;
+    private ImageView ivCloseRoute;
+    private final List<Marker> allMarkers = new ArrayList<>();
+    private final Map<String, GeoPoint> locationPoints = new HashMap<>();
     private MyLocationNewOverlay myLocationOverlay;
     private Polyline currentRouteLine;
     private CardView cardDistanceOverlay;
@@ -87,42 +92,71 @@ public class MapActivity extends AppCompatActivity {
         checkLocationPermissions();
         initializeMarkers();
 
+        // Initialize Search and Route views
+        cardSearchBar = findViewById(R.id.cardSearchBar);
+        cardRouteSelection = findViewById(R.id.cardRouteSelection);
+        tvSearchPlaceholder = findViewById(R.id.tvSearchPlaceholder);
+        ivCloseRoute = findViewById(R.id.ivCloseRoute);
         etOriginMap = findViewById(R.id.etOriginMap);
         etDestMap = findViewById(R.id.etDestMap);
 
-        etOriginMap.setFocusable(false);
-        etOriginMap.setOnClickListener(v -> showLocationPickerDialog(etOriginMap));
+        // Setup click listeners for Search Bar
+        View.OnClickListener showSearchListener = v -> showLocationPickerDialog(null);
+        if (cardSearchBar != null) cardSearchBar.setOnClickListener(showSearchListener);
+        if (tvSearchPlaceholder != null) tvSearchPlaceholder.setOnClickListener(showSearchListener);
 
-        etDestMap.setFocusable(false);
-        etDestMap.setOnClickListener(v -> showLocationPickerDialog(etDestMap));
+        // Setup Route Selection listeners
+        if (ivCloseRoute != null) {
+            ivCloseRoute.setOnClickListener(v -> {
+                cardRouteSelection.setVisibility(View.GONE);
+                cardSearchBar.setVisibility(View.VISIBLE);
+                if (currentRouteLine != null) {
+                    mapView.getOverlays().remove(currentRouteLine);
+                    cardDistanceOverlay.setVisibility(View.GONE);
+                    mapView.invalidate();
+                }
+            });
+        }
+
+        if (etOriginMap != null) {
+            etOriginMap.setFocusable(false);
+            etOriginMap.setOnClickListener(v -> showLocationPickerDialog(etOriginMap));
+        }
+
+        if (etDestMap != null) {
+            etDestMap.setFocusable(false);
+            etDestMap.setOnClickListener(v -> showLocationPickerDialog(etDestMap));
+        }
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
-        bottomNavigation.setSelectedItemId(R.id.nav_map);
-        bottomNavigation.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_how_to) {
-                Intent intent = new Intent(this, LandingActivity.class);
-                intent.putExtra("USERNAME", username);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-            if (id == R.id.nav_routes) {
-                Intent intent = new Intent(this, RoutesActivity.class);
-                intent.putExtra("USERNAME", username);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-            if (id == R.id.nav_settings) {
-                Intent intent = new Intent(this, SettingsActivity.class);
-                intent.putExtra("USERNAME", username);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-            return id == R.id.nav_map;
-        });
+        if (bottomNavigation != null) {
+            bottomNavigation.setSelectedItemId(R.id.nav_map);
+            bottomNavigation.setOnItemSelectedListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.nav_how_to) {
+                    Intent intent = new Intent(this, LandingActivity.class);
+                    intent.putExtra("USERNAME", username);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                }
+                if (id == R.id.nav_routes) {
+                    Intent intent = new Intent(this, RoutesActivity.class);
+                    intent.putExtra("USERNAME", username);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                }
+                if (id == R.id.nav_settings) {
+                    Intent intent = new Intent(this, SettingsActivity.class);
+                    intent.putExtra("USERNAME", username);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                }
+                return id == R.id.nav_map;
+            });
+        }
     }
 
     private void checkLocationPermissions() {
@@ -248,7 +282,16 @@ public class MapActivity extends AppCompatActivity {
 
         rvLocations.setLayoutManager(new LinearLayoutManager(this));
         LocationAdapter adapter = new LocationAdapter(names, locationName -> {
-            targetField.setText(locationName);
+            if (targetField != null) {
+                targetField.setText(locationName);
+            } else {
+                // Triggered from main Search Bar
+                tvSearchPlaceholder.setText(locationName);
+                etDestMap.setText(locationName);
+                etOriginMap.setText("Current Location");
+                cardSearchBar.setVisibility(View.GONE);
+                cardRouteSelection.setVisibility(View.VISIBLE);
+            }
             checkAndDrawRoute();
             dialog.dismiss();
         });
@@ -297,6 +340,8 @@ public class MapActivity extends AppCompatActivity {
         view.findViewById(R.id.btnViewRoute).setOnClickListener(v -> {
             etDestMap.setText(m.getTitle());
             etOriginMap.setText("Current Location");
+            cardSearchBar.setVisibility(View.GONE);
+            cardRouteSelection.setVisibility(View.VISIBLE);
             checkAndDrawRoute();
             dialog.dismiss();
         });
@@ -320,7 +365,7 @@ public class MapActivity extends AppCompatActivity {
 
         if (origin.isEmpty() || dest.isEmpty()) return;
 
-        GeoPoint startPoint = null;
+        GeoPoint startPoint;
         if (origin.equals("Current Location")) {
             startPoint = (myLocationOverlay != null) ? myLocationOverlay.getMyLocation() : null;
         } else {

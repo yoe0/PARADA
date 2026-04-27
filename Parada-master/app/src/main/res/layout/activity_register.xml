@@ -107,6 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@id/iconLock"
+                    android:layout_toStartOf="@+id/ivShowRegPassword"
                     android:background="@android:color/transparent"
                     android:hint="••••••"
                     android:paddingHorizontal="12dp"
@@ -114,6 +115,15 @@
                     android:textColorHint="@color/grey_600"
                     android:textSize="15sp"
                     android:inputType="textPassword"/>
+                <ImageView
+                    android:id="@+id/ivShowRegPassword"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:src="@android:drawable/ic_menu_view"
+                    app:tint="@color/grey_500" />
             </RelativeLayout>
 
             <TextView
@@ -143,6 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@id/iconLockConfirm"
+                    android:layout_toStartOf="@+id/ivShowConfirmPassword"
                     android:background="@android:color/transparent"
                     android:hint="••••••"
                     android:paddingHorizontal="12dp"
@@ -150,6 +161,15 @@
                     android:textColorHint="@color/grey_600"
                     android:textSize="15sp"
                     android:inputType="textPassword"/>
+                <ImageView
+                    android:id="@+id/ivShowConfirmPassword"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:src="@android:drawable/ic_menu_view"
+                    app:tint="@color/grey_500" />
             </RelativeLayout>
 
             <Button

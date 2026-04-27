@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="28dp">
+        android:paddingHorizontal="28dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="12dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,24 +68,6 @@
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Real-time Map,"
-            android:textColor="@color/grey_500"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tvHeaderTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Explore Nearby"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            android:fontFamily="sans-serif-black"
-            android:layout_marginTop="-4dp"/>
-
     </LinearLayout>
 
     <org.osmdroid.views.MapView
@@ -99,16 +83,55 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
         android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="8dp">
+        android:paddingHorizontal="20dp"
+        android:paddingTop="16dp">
 
+        <!-- SEARCH BAR (Reference 2nd Image) -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/ui_card_bg"
+            app:cardCornerRadius="28dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/grey_800"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/tvSearchPlaceholder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Search PARADA"
+                    android:textColor="@color/grey_500"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ivSearchIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_search"
+                    app:tint="@color/grey_500" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ROUTE SELECTION (Reference 1st Image) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardRouteSelection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/ui_card_bg"
             app:cardCornerRadius="20dp"
             app:strokeWidth="1dp"
-            app:strokeColor="@color/grey_800">
+            app:strokeColor="@color/grey_800"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,28 +139,49 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <EditText
-                    android:id="@+id/etOriginMap"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:background="@drawable/ui_input_bg"
-                    android:hint="From: Current Location"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/grey_600"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+                    
+                    <EditText
+                        android:id="@+id/etOriginMap"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:background="@drawable/ui_input_bg"
+                        android:hint="From: Current Location"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/grey_600"
+                        android:textSize="14sp" />
+                </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/etDestMap"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/ui_input_bg"
-                    android:hint="To: Select Destination"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/grey_600"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/etDestMap"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:background="@drawable/ui_input_bg"
+                        android:hint="To: Select Destination"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/grey_600"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/ivCloseRoute"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="12dp"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel"
+                        app:tint="@color/grey_600" />
+                </RelativeLayout>
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

@@ -20,8 +20,6 @@
             android:src="@drawable/logo8"
             android:layout_marginBottom="16dp" />
 
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,6 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@id/iconLock"
+                    android:layout_toStartOf="@+id/ivShowPassword"
                     android:background="@android:color/transparent"
                     android:hint="••••••"
                     android:paddingHorizontal="12dp"
@@ -116,6 +115,15 @@
                     android:textColorHint="@color/grey_600"
                     android:textSize="15sp"
                     android:inputType="textPassword"/>
+                <ImageView
+                    android:id="@+id/ivShowPassword"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:src="@android:drawable/ic_menu_view"
+                    app:tint="@color/grey_500" />
             </RelativeLayout>
 
             <CheckBox

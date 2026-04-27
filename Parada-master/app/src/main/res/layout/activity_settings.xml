@@ -258,7 +258,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
-                        android:text="Logout Account"
+                        android:text="Logout"
                         android:textColor="@color/error"
                         android:textSize="16sp"
                         android:textStyle="bold" />
