@@ -3,132 +3,166 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/ui_dark_bg">
 
-    <!-- HEADER -->
-    <RelativeLayout
+    <!-- HEADER SECTION -->
+    <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@drawable/header_bg_wave"
-        android:padding="24dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="28dp">
 
-        <TextView
-            android:id="@+id/tvAppName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PARADA"
-            android:textColor="#FFFFFF"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvAppName"
-            android:text="“Two paths, one journey your route, now together.”"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvUsernameHeader"
+                android:id="@+id/tvAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:text="PARADA"
+                android:textColor="@color/ui_orange"
+                android:textSize="26sp"
                 android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"/>
-        </LinearLayout>
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.1" />
 
-    </RelativeLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardProfileHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                app:cardBackgroundColor="@color/ui_card_bg"
+                app:cardCornerRadius="12dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/grey_800">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_menu_myplaces"
+                        app:tint="@color/ui_orange"/>
+
+                    <TextView
+                        android:id="@+id/tvUsernameHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Guest"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Welcome,"
+            android:textColor="@color/grey_500"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvWelcomeUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explore the City"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="-4dp"/>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
-        android:layout_marginTop="-40dp"
         android:layout_above="@id/bottom_navigation"
         android:clipToPadding="false"
-        android:paddingBottom="20dp">
+        android:paddingBottom="32dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="24dp">
 
-            <!-- GREETING CARD -->
-            <androidx.cardview.widget.CardView
+            <!-- MAIN PROMO/INFO CARD -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                android:layout_marginBottom="16dp">
+                android:layout_height="180dp"
+                app:cardCornerRadius="28dp"
+                app:cardBackgroundColor="@color/ui_orange"
+                android:layout_marginBottom="32dp">
                 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:background="@color/bg_light_red"
-                    android:gravity="center_vertical">
+                    android:layout_height="match_parent"
+                    android:padding="24dp">
                     
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/img_4" 
-                        android:background="@drawable/circle_bg_light"
-                        android:padding="10dp"/>
-
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="vertical"
-                        android:layout_marginStart="16dp">
+                        android:layout_centerVertical="true">
                         
                         <TextView
-                            android:id="@+id/tvWelcomeUser"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Buenas Dias!"
-                            android:textColor="@color/parada_red"
-                            android:textSize="20sp"
+                            android:text="Ready for a trip?"
+                            android:textColor="@color/white"
+                            android:textSize="22sp"
                             android:textStyle="bold"/>
                         
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Check routes, find your destination and stay updated with schedules and alerts."
-                            android:textColor="#555555"
-                            android:textSize="13sp"/>
+                            android:text="Find the best routes and fares in Zamboanga City."
+                            android:textColor="#E0FFFFFF"
+                            android:layout_marginTop="8dp"
+                            android:textSize="14sp"/>
                     </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:alpha="0.3"
+                        android:src="@drawable/img_4"
+                        app:tint="@color/white" />
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- SEARCH DESTINATION -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quick Services"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="4dp"/>
+
+            <!-- GRID-LIKE ACTIONS OR LIST -->
             <include layout="@layout/item_menu_card"
                 android:id="@+id/cardSearch" />
 
-            <!-- VIEW ROUTES -->
             <include layout="@layout/item_menu_card"
                 android:id="@+id/cardRoutes" />
 
-            <!-- SETTINGS -->
             <include layout="@layout/item_menu_card"
                 android:id="@+id/cardSettings" />
 
@@ -137,15 +171,15 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
-        app:menu="@menu/bottom_nav_menu"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:elevation="8dp"
-        app:itemIconSize="24dp"
-        app:labelVisibilityMode="labeled"
-        app:itemTextColor="@color/selected_grey"
-        app:itemIconTint="@color/selected_grey"/>
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/ui_card_bg"
+        app:menu="@menu/bottom_nav_menu"
+        app:elevation="16dp"
+        app:itemIconTint="@color/grey_600"
+        app:itemTextColor="@color/grey_600"
+        app:itemRippleColor="@color/ui_orange"
+        app:labelVisibilityMode="labeled" />
 
 </RelativeLayout>

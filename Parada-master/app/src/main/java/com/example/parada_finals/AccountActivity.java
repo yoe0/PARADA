@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,25 +25,10 @@ public class AccountActivity extends AppCompatActivity {
 
         String username = getIntent().getStringExtra("USERNAME");
 
-        // Header Username with Dropdown
-        TextView tvUsernameHeader = findViewById(R.id.tvUsernameHeader);
-        if (tvUsernameHeader != null) {
-            if (username != null && !username.isEmpty()) {
-                tvUsernameHeader.setText(username);
-            }
-
-            tvUsernameHeader.setOnClickListener(v -> {
-                PopupMenu popup = new PopupMenu(AccountActivity.this, v);
-                popup.getMenuInflater().inflate(R.menu.user_menu, popup.getMenu());
-                popup.setOnMenuItemClickListener(item -> {
-                    if (item.getItemId() == R.id.menu_logout) {
-                        logout();
-                        return true;
-                    }
-                    return false;
-                });
-                popup.show();
-            });
+        // Back Button
+        View btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
         }
 
         // Initialize views
@@ -142,12 +126,5 @@ public class AccountActivity extends AppCompatActivity {
         etUsername.setText(savedUsername);
         etPassword.setText(savedPassword);
         etConfirmPassword.setText(savedPassword);
-    }
-
-    private void logout() {
-        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 }

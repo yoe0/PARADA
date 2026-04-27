@@ -1,70 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/ui_dark_bg">
 
-    <!-- HEADER -->
-    <RelativeLayout
+    <!-- HEADER SECTION -->
+    <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="@drawable/header_bg_wave"
-        android:padding="24dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvAppName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PARADA"
+                android:textColor="@color/ui_orange"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.1" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Route Planner,"
+            android:textColor="@color/grey_500"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PARADA ROUTES"
-            android:textColor="#FFFFFF"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-black" />
+            android:text="Calculate Your Fare"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="-4dp"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvUsernameHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="hans"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:drawablePadding="4dp"
-                app:tint="#FFFFFF"
-                android:clickable="true"
-                android:focusable="true"/>
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
-        android:layout_marginTop="-40dp"
         android:layout_above="@id/bottom_navigation"
         android:clipToPadding="false"
-        android:paddingBottom="20dp">
+        android:paddingBottom="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="24dp">
 
-            <androidx.cardview.widget.CardView
+            <!-- PLAN YOUR TRIP CARD -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="24dp"
+                app:cardBackgroundColor="@color/ui_card_bg"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -75,122 +82,219 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Vehicle Type"
-                        android:textColor="#333333"
+                        android:text="Plan Your Trip"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textSize="13sp"
-                        android:layout_marginBottom="4dp"/>
+                        android:layout_marginBottom="24dp" />
 
-                    <Spinner
-                        android:id="@+id/spinnerVehicleType"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:background="@drawable/spinner_bg"
-                        android:layout_marginBottom="16dp"
-                        android:paddingStart="12dp"
-                        android:spinnerMode="dialog"/>
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="From"
-                        android:textColor="#333333"
-                        android:textStyle="bold"
-                        android:textSize="13sp"
-                        android:layout_marginBottom="4dp"/>
+                        <View
+                            android:id="@+id/dot_start"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginTop="22dp"
+                            android:background="@drawable/back_circle_bg"
+                            android:backgroundTint="@color/ui_orange" />
 
-                    <Spinner
-                        android:id="@+id/spinnerFrom"
-                        android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:background="@drawable/spinner_bg"
-                        android:layout_marginBottom="16dp"
-                        android:paddingStart="12dp"
-                        android:spinnerMode="dialog"
-                        android:prompt="@string/select_origin"/>
+                        <View
+                            android:id="@+id/dot_end"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginTop="90dp"
+                            android:background="@drawable/back_circle_bg"
+                            android:backgroundTint="@color/ui_orange" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="To"
-                        android:textColor="#333333"
-                        android:textStyle="bold"
-                        android:textSize="13sp"
-                        android:layout_marginBottom="4dp"/>
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="60dp"
+                            android:layout_below="@id/dot_start"
+                            android:layout_alignStart="@id/dot_start"
+                            android:layout_marginStart="4.5dp"
+                            android:background="@color/grey_700" />
 
-                    <Spinner
-                        android:id="@+id/spinnerTo"
-                        android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:background="@drawable/spinner_bg"
-                        android:layout_marginBottom="24dp"
-                        android:paddingStart="12dp"
-                        android:spinnerMode="dialog"
-                        android:prompt="@string/select_destination"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="28dp"
+                            android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/btnCalculate"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:text="Calculate Fare"
-                        android:textAllCaps="false"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:backgroundTint="@color/parada_red"
-                        app:cornerRadius="26dp" />
+                            <EditText
+                                android:id="@+id/etOrigin"
+                                android:layout_width="match_parent"
+                                android:layout_height="56dp"
+                                android:background="@drawable/ui_input_bg"
+                                android:hint="From: Select Location"
+                                android:paddingStart="16dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/grey_600"
+                                android:textSize="14sp"
+                                android:focusable="false"
+                                android:clickable="true" />
 
+                            <EditText
+                                android:id="@+id/etDestination"
+                                android:layout_width="match_parent"
+                                android:layout_height="56dp"
+                                android:layout_marginTop="12dp"
+                                android:background="@drawable/ui_input_bg"
+                                android:hint="To: Select Destination"
+                                android:paddingStart="16dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/grey_600"
+                                android:textSize="14sp"
+                                android:focusable="false"
+                                android:clickable="true" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <!-- Spinner hidden for compatibility if needed -->
+            <Spinner android:id="@+id/spinnerFrom" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone"/>
+            <Spinner android:id="@+id/spinnerTo" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Select Vehicle Type"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- VEHICLE TYPE SELECTION -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <!-- Tricycle Option -->
+                <LinearLayout
+                    android:id="@+id/btnTricycle"
+                    android:layout_width="0dp"
+                    android:layout_height="95dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ui_input_bg"
+                    android:backgroundTint="@color/ui_orange"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="12dp">
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@android:drawable/ic_menu_directions"
+                        app:tint="@color/white" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Tricycle"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- Jeepney Option -->
+                <LinearLayout
+                    android:id="@+id/btnJeepney"
+                    android:layout_width="0dp"
+                    android:layout_height="95dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ui_input_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@android:drawable/ic_dialog_map"
+                        app:tint="@color/grey_600" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Jeepney"
+                        android:textColor="@color/grey_600"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Hidden Spinner for functional compatibility -->
+                <Spinner
+                    android:id="@+id/spinnerVehicleType"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- RESULT CARD -->
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                android:layout_marginTop="20dp"
-                android:visibility="gone">
+                app:cardBackgroundColor="@color/ui_card_bg"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/ui_orange"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@color/bg_light_orange">
+                    android:padding="16dp">
 
                     <TextView
                         android:id="@+id/tvResultDistance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Distance: 0 km"
-                        android:textColor="#333333"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/grey_400"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvResultFare"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="Fare: ₱0.00"
-                        android:textSize="20sp"
-                        android:textColor="@color/parada_red"
-                        android:textStyle="bold"
-                        android:layout_marginTop="4dp"/>
+                        android:textColor="@color/ui_orange"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCalculate"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="40dp"
+                android:text="Calculate fare"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/ui_orange"
+                app:cornerRadius="16dp" />
 
         </LinearLayout>
     </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
-        app:menu="@menu/bottom_nav_menu"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:elevation="8dp"
-        app:labelVisibilityMode="labeled"
-        app:itemTextColor="@color/selected_grey"
-        app:itemIconTint="@color/selected_grey"/>
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/ui_card_bg"
+        app:itemIconTint="@color/grey_600"
+        app:itemTextColor="@color/grey_600"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled" />
 
 </RelativeLayout>

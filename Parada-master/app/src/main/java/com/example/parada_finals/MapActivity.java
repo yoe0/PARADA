@@ -12,10 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -41,6 +40,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MapActivity extends AppCompatActivity {
 
@@ -68,13 +68,10 @@ public class MapActivity extends AppCompatActivity {
 
         username = getIntent().getStringExtra("USERNAME");
 
-        // Header Username
         TextView tvUsernameHeader = findViewById(R.id.tvUsernameHeader);
         if (tvUsernameHeader != null) {
             tvUsernameHeader.setText(username != null ? username : "hans");
         }
-
-
 
         mapView = findViewById(R.id.mapView);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
@@ -93,14 +90,12 @@ public class MapActivity extends AppCompatActivity {
         etOriginMap = findViewById(R.id.etOriginMap);
         etDestMap = findViewById(R.id.etDestMap);
 
-        // Make them clickable to pick from list
         etOriginMap.setFocusable(false);
         etOriginMap.setOnClickListener(v -> showLocationPickerDialog(etOriginMap));
 
         etDestMap.setFocusable(false);
         etDestMap.setOnClickListener(v -> showLocationPickerDialog(etDestMap));
 
-        // Bottom Navigation
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setSelectedItemId(R.id.nav_map);
         bottomNavigation.setOnItemSelectedListener(item -> {
@@ -141,7 +136,6 @@ public class MapActivity extends AppCompatActivity {
     private void enableMyLocation() {
         myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mapView);
         myLocationOverlay.enableMyLocation();
-        // Force map to follow location initially
         myLocationOverlay.enableFollowLocation();
         mapView.getOverlays().add(myLocationOverlay);
     }
@@ -159,7 +153,6 @@ public class MapActivity extends AppCompatActivity {
     }
 
     private void initializeMarkers() {
-        // Landmarks
         addMarker(6.9174, 122.0754, "KCC Mall de Zamboanga", "Gov. Camins Ave", "Mall", "img_7");
         addMarker(6.9093, 122.0753, "ADZU", "La Purisima St", "University", "img_8");
         addMarker(6.9400, 122.0488, "Pasonanca Park", "Pasonanca", "Park", "img_7");
@@ -174,7 +167,6 @@ public class MapActivity extends AppCompatActivity {
         addMarker(6.9651, 121.9829, "Yubenco Ayala", "Ayala", "Mall", "img_8");
         addMarker(6.9265, 122.0612, "Garden Orchid", "Gov. Camins Ave", "Hotel", "img_7");
 
-        // Barangays
         addMarker(6.8920, 122.1080, "Arena Blanco", "Brgy. Arena Blanco", "Coastal", "img_8");
         addMarker(6.9634, 121.9774, "Ayala", "Brgy. Ayala", "Hub", "img_7");
         addMarker(6.9130, 122.0620, "Baliwasan", "Brgy. Baliwasan", "Residential", "img_8");
@@ -241,16 +233,41 @@ public class MapActivity extends AppCompatActivity {
         names.add(0, "Current Location");
         Collections.sort(names.subList(1, names.size()));
 
-        String[] locationArray = names.toArray(new String[0]);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_location_picker, null);
+        AlertDialog dialog = new AlertDialog.Builder(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+                .setView(dialogView)
+                .create();
 
-        new AlertDialog.Builder(this)
-                .setTitle("Select Location")
-                .setItems(locationArray, (dialog, which) -> {
-                    String selected = locationArray[which];
-                    targetField.setText(selected);
-                    checkAndDrawRoute();
-                })
-                .show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
+
+        RecyclerView rvLocations = dialogView.findViewById(R.id.rvLocations);
+        EditText etSearch = dialogView.findViewById(R.id.etSearchLocation);
+        View btnClose = dialogView.findViewById(R.id.btnClosePicker);
+
+        rvLocations.setLayoutManager(new LinearLayoutManager(this));
+        LocationAdapter adapter = new LocationAdapter(names, locationName -> {
+            targetField.setText(locationName);
+            checkAndDrawRoute();
+            dialog.dismiss();
+        });
+        rvLocations.setAdapter(adapter);
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString().toLowerCase();
+                List<String> filtered = names.stream()
+                        .filter(n -> n.toLowerCase().contains(query))
+                        .collect(Collectors.toList());
+                adapter.updateList(filtered);
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 
     private void showPlaceDetails(Marker m) {
@@ -273,7 +290,6 @@ public class MapActivity extends AppCompatActivity {
         }
 
         ((TextView) view.findViewById(R.id.tvPlaceAddress)).setText(parts[0] + "\n\n" + parts[1] + "\n\n📍 " + distanceText);
-
 
         AlertDialog dialog = builder.setView(view).create();
         if (dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -342,8 +358,6 @@ public class MapActivity extends AppCompatActivity {
         mapView.invalidate();
     }
 
-    @Override
-    protected void onResume() { super.onResume(); mapView.onResume(); if (myLocationOverlay != null) myLocationOverlay.enableMyLocation(); }
-    @Override
-    protected void onPause() { super.onPause(); mapView.onPause(); if (myLocationOverlay != null) myLocationOverlay.disableMyLocation(); }
+    @Override protected void onResume() { super.onResume(); mapView.onResume(); if (myLocationOverlay != null) myLocationOverlay.enableMyLocation(); }
+    @Override protected void onPause() { super.onPause(); mapView.onPause(); if (myLocationOverlay != null) myLocationOverlay.disableMyLocation(); }
 }

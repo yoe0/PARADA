@@ -1,33 +1,50 @@
 package com.example.parada_finals;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.PopupMenu;
-import android.widget.Spinner;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class RoutesActivity extends AppCompatActivity {
 
-    private Spinner spinnerVehicleType, spinnerFrom, spinnerTo;
+    private EditText etOrigin, etDestination;
     private Button btnCalculate;
     private CardView cardResult;
     private TextView tvResultDistance, tvResultFare;
     private BottomNavigationView bottomNavigationView;
+    
+    private LinearLayout btnTricycle, btnJeepney;
+    private String selectedVehicle = "Tricycle"; // Default
 
-    private String[] vehicleTypes = {"Tricycle", "Jeepney"};
     private String[] barangayList = {
             "Town", "Arena Blanco", "Ayala", "Baliwasan", "Baluno", "Boalan", "Bolong", "Buenavista", "Bunguiao",
             "Busay (Sacol Island)", "Cabaluay", "Cabatangan", "Cacao", "Calabasa", "Calarian", "Camino Nuevo",
@@ -57,54 +74,27 @@ public class RoutesActivity extends AppCompatActivity {
         String username = getIntent().getStringExtra("USERNAME");
         String destinationFromMap = getIntent().getStringExtra("DESTINATION");
 
-        // Header
-        TextView tvUsernameHeader = findViewById(R.id.tvUsernameHeader);
-        if (tvUsernameHeader != null) {
-            if (username != null && !username.isEmpty()) {
-                tvUsernameHeader.setText(username);
-            }
-            tvUsernameHeader.setOnClickListener(v -> {
-                PopupMenu popup = new PopupMenu(this, v);
-                popup.getMenuInflater().inflate(R.menu.user_menu, popup.getMenu());
-                popup.setOnMenuItemClickListener(item -> {
-                    if (item.getItemId() == R.id.menu_logout) {
-                        logout();
-                        return true;
-                    }
-                    return false;
-                });
-                popup.show();
-            });
-        }
-
         // Initialize UI
-        spinnerVehicleType = findViewById(R.id.spinnerVehicleType);
-        spinnerFrom = findViewById(R.id.spinnerFrom);
-        spinnerTo = findViewById(R.id.spinnerTo);
+        etOrigin = findViewById(R.id.etOrigin);
+        etDestination = findViewById(R.id.etDestination);
+        btnTricycle = findViewById(R.id.btnTricycle);
+        btnJeepney = findViewById(R.id.btnJeepney);
         btnCalculate = findViewById(R.id.btnCalculate);
         cardResult = findViewById(R.id.cardResult);
         tvResultDistance = findViewById(R.id.tvResultDistance);
         tvResultFare = findViewById(R.id.tvResultFare);
 
-        // Setup Spinners
-        ArrayAdapter<String> vehicleAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vehicleTypes);
-        vehicleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerVehicleType.setAdapter(vehicleAdapter);
+        // Setup Location Pickers
+        etOrigin.setOnClickListener(v -> showLocationPickerDialog(etOrigin));
+        etDestination.setOnClickListener(v -> showLocationPickerDialog(etDestination));
 
-        ArrayAdapter<String> locAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, barangayList);
-        locAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerFrom.setAdapter(locAdapter);
-        spinnerTo.setAdapter(locAdapter);
+        // Setup Selection Logic
+        btnTricycle.setOnClickListener(v -> selectVehicle("Tricycle"));
+        btnJeepney.setOnClickListener(v -> selectVehicle("Jeepney"));
 
         // Set destination if passed from Map
         if (destinationFromMap != null) {
-            for (int i = 0; i < barangayList.length; i++) {
-                if (barangayList[i].equalsIgnoreCase(destinationFromMap) || 
-                    destinationFromMap.contains(barangayList[i])) {
-                    spinnerTo.setSelection(i);
-                    break;
-                }
-            }
+            etDestination.setText(destinationFromMap);
         }
 
         btnCalculate.setOnClickListener(v -> calculateFare());
@@ -137,8 +127,78 @@ public class RoutesActivity extends AppCompatActivity {
         });
     }
 
+    private void showLocationPickerDialog(EditText targetField) {
+        List<String> names = new ArrayList<>(Arrays.asList(barangayList));
+        Collections.sort(names);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_location_picker, null);
+        AlertDialog dialog = new AlertDialog.Builder(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+                .setView(dialogView)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
+
+        RecyclerView rvLocations = dialogView.findViewById(R.id.rvLocations);
+        EditText etSearch = dialogView.findViewById(R.id.etSearchLocation);
+        View btnClose = dialogView.findViewById(R.id.btnClosePicker);
+
+        rvLocations.setLayoutManager(new LinearLayoutManager(this));
+        
+        // Using a simpler adapter for barangay list or reuse LocationAdapter if possible
+        // For simplicity, let's create a local adapter logic or similar
+        LocationAdapter adapter = new LocationAdapter(names, locationName -> {
+            targetField.setText(locationName);
+            dialog.dismiss();
+        });
+        rvLocations.setAdapter(adapter);
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString().toLowerCase();
+                List<String> filtered = names.stream()
+                        .filter(n -> n.toLowerCase().contains(query))
+                        .collect(Collectors.toList());
+                adapter.updateList(filtered);
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
+        if (btnClose != null) {
+            btnClose.setOnClickListener(v -> dialog.dismiss());
+        }
+        dialog.show();
+    }
+
+    private void selectVehicle(String type) {
+        selectedVehicle = type;
+        int orange = ContextCompat.getColor(this, R.color.ui_orange);
+        int dark = ContextCompat.getColor(this, R.color.ui_input_bg);
+        int white = Color.WHITE;
+        int grey = ContextCompat.getColor(this, R.color.grey_600);
+
+        if (type.equals("Tricycle")) {
+            btnTricycle.setBackgroundTintList(android.content.res.ColorStateList.valueOf(orange));
+            ((TextView) btnTricycle.getChildAt(1)).setTextColor(white);
+            ((android.widget.ImageView) btnTricycle.getChildAt(0)).setColorFilter(white);
+
+            btnJeepney.setBackgroundTintList(android.content.res.ColorStateList.valueOf(dark));
+            ((TextView) btnJeepney.getChildAt(1)).setTextColor(grey);
+            ((android.widget.ImageView) btnJeepney.getChildAt(0)).setColorFilter(grey);
+        } else {
+            btnJeepney.setBackgroundTintList(android.content.res.ColorStateList.valueOf(orange));
+            ((TextView) btnJeepney.getChildAt(1)).setTextColor(white);
+            ((android.widget.ImageView) btnJeepney.getChildAt(0)).setColorFilter(white);
+
+            btnTricycle.setBackgroundTintList(android.content.res.ColorStateList.valueOf(dark));
+            ((TextView) btnTricycle.getChildAt(1)).setTextColor(grey);
+            ((android.widget.ImageView) btnTricycle.getChildAt(0)).setColorFilter(grey);
+        }
+    }
+
     private void initializeCoordinates() {
-        // Real Coordinates
         coordinatesMap.put("Town", new LatLng(6.905, 122.075));
         coordinatesMap.put("KCC Mall", new LatLng(6.9174, 122.0754));
         coordinatesMap.put("SM Mindpro", new LatLng(6.9067, 122.0772));
@@ -202,14 +262,13 @@ public class RoutesActivity extends AppCompatActivity {
     }
 
     private void calculateFare() {
-        if (spinnerFrom.getSelectedItem() == null || spinnerTo.getSelectedItem() == null) {
+        String from = etOrigin.getText().toString();
+        String to = etDestination.getText().toString();
+
+        if (from.isEmpty() || to.isEmpty()) {
             Toast.makeText(this, "Please select locations", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        String from = spinnerFrom.getSelectedItem().toString();
-        String to = spinnerTo.getSelectedItem().toString();
-        String vehicle = spinnerVehicleType.getSelectedItem().toString();
 
         if (from.equals(to)) {
             Toast.makeText(this, "From and To cannot be the same", Toast.LENGTH_SHORT).show();
@@ -227,7 +286,7 @@ public class RoutesActivity extends AppCompatActivity {
 
         double fare = 0;
 
-        if (vehicle.equals("Tricycle")) {
+        if (selectedVehicle.equals("Tricycle")) {
             fare = roadDistanceKm * 15;
             tvResultDistance.setText(String.format("Estimated Distance: %.2f km (%d m)", roadDistanceKm, (int)(roadDistanceKm * 1000)));
         } else {
@@ -240,12 +299,5 @@ public class RoutesActivity extends AppCompatActivity {
 
         tvResultFare.setText(String.format("Fare: ₱%.2f", fare));
         cardResult.setVisibility(View.VISIBLE);
-    }
-
-    private void logout() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 }

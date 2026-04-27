@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    app:cardCornerRadius="20dp"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
     app:cardBackgroundColor="@color/ui_card_bg"
-    app:strokeWidth="0dp"
-    app:rippleColor="@color/parada_red_light">
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,22 +15,13 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
-        <!-- COLOR SIDE BORDER (Simulated with a View) -->
-        <View
-            android:id="@+id/sideBorder"
-            android:layout_width="4dp"
-            android:layout_height="48dp"
-            android:background="@color/ui_orange"
-            android:layout_marginEnd="16dp"/>
-
         <ImageView
-            android:id="@+id/itemIcon"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@android:drawable/ic_menu_mylocation"
             android:background="@drawable/ui_input_bg"
-            android:padding="12dp"
-            android:src="@android:drawable/ic_menu_search"
-            app:tint="@color/ui_orange"/>
+            android:padding="10dp"
+            app:tint="@color/ui_orange" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -41,30 +31,24 @@
             android:layout_marginStart="16dp">
 
             <TextView
-                android:id="@+id/itemTitle"
+                android:id="@+id/tvLocationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title"
+                android:text="Location Name"
                 android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold"/>
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textAllCaps="true" />
 
             <TextView
-                android:id="@+id/itemDesc"
+                android:id="@+id/tvLocationDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description goes here."
+                android:text="Short description of location"
                 android:textColor="@color/grey_500"
-                android:textSize="13sp"
-                android:layout_marginTop="2dp"/>
+                android:textSize="12sp"
+                android:layout_marginTop="2dp" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@android:drawable/ic_media_play"
-            app:tint="@color/grey_700"
-            android:layout_marginStart="8dp" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

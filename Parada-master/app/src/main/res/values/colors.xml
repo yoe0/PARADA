@@ -1,17 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="parada_red">#E91E63</color>
-    <color name="parada_red_dark">#C2185B</color>
+    <!-- Primary Brand Colors -->
+    <color name="parada_red">#D32F2F</color>
+    <color name="parada_red_dark">#B71C1C</color>
+    <color name="parada_red_light">#FFCDD2</color>
+    <color name="parada_accent">#FF5252</color>
+
+    <!-- Modern UI Colors (based on image) -->
+    <color name="ui_orange">#EF533B</color>
+    <color name="ui_dark_bg">#000000</color>
+    <color name="ui_card_bg">#1C1C1E</color>
+    <color name="ui_input_bg">#2C2C2E</color>
+
+    <!-- modern transport palette -->
+    <color name="transport_blue">#1A237E</color>
+    <color name="transport_blue_light">#534BAE</color>
+    <color name="transport_green">#2E7D32</color>
+
+    <!-- Neutrals -->
+    <color name="black">#212121</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey_50">#F8F9FA</color>
+    <color name="grey_100">#F1F3F4</color>
+    <color name="grey_200">#E8EAED</color>
+    <color name="grey_300">#DADCE0</color>
+    <color name="grey_400">#BDC1C6</color>
+    <color name="grey_500">#9AA0A6</color>
+    <color name="grey_600">#70757A</color>
+    <color name="grey_700">#5F6368</color>
+    <color name="grey_800">#3C4043</color>
+    <color name="grey_900">#202124</color>
+
+    <!-- social colors -->
+    <color name="google_red">#DB4437</color>
+    <color name="facebook_blue">#4267B2</color>
+
+    <!-- Semantic Colors -->
+    <color name="error">#B00020</color>
+    <color name="success">#388E3C</color>
+
+    <!-- Previous Colors (for compatibility) -->
     <color name="selected_grey">#757575</color>
     <color name="unselected_grey">#BDBDBD</color>
-    
     <color name="card_red_side">#FF5252</color>
     <color name="card_purple_side">#7C4DFF</color>
     <color name="card_green_side">#69F0AE</color>
     <color name="card_orange_side">#FFAB40</color>
-    
     <color name="bg_light_red">#FFF0F3</color>
     <color name="bg_light_purple">#F3E5F5</color>
     <color name="bg_light_green">#E8F5E9</color>

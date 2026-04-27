@@ -2,9 +2,8 @@ package com.example.parada_finals;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
-import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,25 +18,10 @@ public class PrivacyActivity extends AppCompatActivity {
 
         String username = getIntent().getStringExtra("USERNAME");
 
-        // Header Username with Dropdown
-        TextView tvUsernameHeader = findViewById(R.id.tvUsernameHeader);
-        if (tvUsernameHeader != null) {
-            if (username != null && !username.isEmpty()) {
-                tvUsernameHeader.setText(username);
-            }
-
-            tvUsernameHeader.setOnClickListener(v -> {
-                PopupMenu popup = new PopupMenu(PrivacyActivity.this, v);
-                popup.getMenuInflater().inflate(R.menu.user_menu, popup.getMenu());
-                popup.setOnMenuItemClickListener(item -> {
-                    if (item.getItemId() == R.id.menu_logout) {
-                        logout();
-                        return true;
-                    }
-                    return false;
-                });
-                popup.show();
-            });
+        // Back Button
+        View btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
         }
 
         Button btnIUnderstand = findViewById(R.id.btnIUnderstand);
@@ -83,12 +67,5 @@ public class PrivacyActivity extends AppCompatActivity {
 
             return false;
         });
-    }
-
-    private void logout() {
-        Intent intent = new Intent(PrivacyActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 }
