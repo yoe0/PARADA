@@ -165,14 +165,6 @@
                         android:textStyle="bold"/>
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Forgot Password"
-                    android:textColor="@color/grey_600"
-                    android:textSize="14sp"/>
-
             </LinearLayout>
 
         </LinearLayout>

@@ -90,7 +90,7 @@ public class LandingActivity extends AppCompatActivity {
         // View Routes Card
         View cardRoutes = findViewById(R.id.cardRoutes);
         updateCard(cardRoutes, 
-            "View Routes/ Check Schedules", 
+            "View Routes",
             "Browse the Routes page to find the bus or train line that serves your area, then view real-time arrival times and plan your trip with schedules updated live for the most accurate information.",
             android.R.drawable.ic_menu_directions,
             R.color.card_purple_side);

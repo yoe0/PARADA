@@ -15,22 +15,10 @@
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/logo5"
+            android:layout_width="230dp"
+            android:layout_height="160dp"
+            android:src="@drawable/logo8"
             android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:id="@+id/tvAppName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PARADA"
-            android:textColor="@color/ui_orange"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-black"
-            android:letterSpacing="0.1"
-            android:layout_marginBottom="32dp"/>
 
         <TextView
             android:layout_width="wrap_content"
